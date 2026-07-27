@@ -88,6 +88,11 @@ function init() {
         document.documentElement.classList.add('dark');
     }
     
+    // Auto-restore admin session if it exists in cache
+    if (localStorage.getItem('agentflow_admin') === 'true') {
+        isAdmin = true;
+    }
+    
     // Apply initial Admin state
     updateAdminUI();
     
