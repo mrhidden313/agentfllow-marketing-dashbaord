@@ -52,6 +52,22 @@
                 <h1 class="font-bold text-xl tracking-tight hidden sm:block">MJ Marketing <span class="text-emerald-500 font-medium text-sm ml-1">Agentflow</span></h1>
             </div>
             
+            <!-- Desktop Stats -->
+            <div class="hidden md:flex items-center gap-6 px-4 border-x border-gray-200 dark:border-white/10 mx-2">
+                <div class="flex items-center gap-1.5" title="Total Cards">
+                    <i class="ph ph-cards text-brand-500 text-lg"></i>
+                    <span class="text-sm font-bold text-gray-900 dark:text-white statTotalCards">0</span>
+                </div>
+                <div class="flex items-center gap-1.5" title="Expired">
+                    <i class="ph ph-warning-circle text-red-500 text-lg"></i>
+                    <span class="text-sm font-bold text-gray-900 dark:text-white statExpiredCount">0</span>
+                </div>
+                <div class="flex items-center gap-1.5" title="Total Due">
+                    <i class="ph ph-currency-circle-dollar text-yellow-500 text-lg"></i>
+                    <span class="text-sm font-bold text-gray-900 dark:text-white statTotalPayment">0</span>
+                </div>
+            </div>
+
             <div class="flex items-center gap-4">
                 <!-- Search Bar -->
                 <div class="relative group hidden sm:block">
@@ -73,50 +89,33 @@
                 </button>
             </div>
         </div>
-        <!-- Mobile Search (visible only on small screens) -->
-        <div class="sm:hidden px-4 pb-3">
+        <!-- Mobile Search & Stats (visible only on small screens) -->
+        <div class="md:hidden px-4 pb-3 space-y-3">
             <div class="relative group">
                 <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                 <input type="text" id="searchInputMobile" placeholder="Search phone or email..." 
                     class="pl-9 pr-4 py-2 w-full rounded-xl bg-gray-100/50 dark:bg-black/30 border border-transparent focus:border-emerald-500/50 focus:bg-white dark:focus:bg-[#15181e] focus:ring-2 focus:ring-emerald-500/20 text-sm outline-none transition-all dark:text-white"
                 >
             </div>
+            <div class="flex justify-between items-center bg-gray-100/50 dark:bg-black/30 rounded-xl p-2 px-4 border border-transparent">
+                <div class="flex items-center gap-1.5" title="Total Cards">
+                    <i class="ph ph-cards text-brand-500 text-lg"></i>
+                    <span class="text-sm font-bold text-gray-900 dark:text-white statTotalCards">0</span>
+                </div>
+                <div class="flex items-center gap-1.5" title="Expired">
+                    <i class="ph ph-warning-circle text-red-500 text-lg"></i>
+                    <span class="text-sm font-bold text-gray-900 dark:text-white statExpiredCount">0</span>
+                </div>
+                <div class="flex items-center gap-1.5" title="Total Due">
+                    <i class="ph ph-currency-circle-dollar text-yellow-500 text-lg"></i>
+                    <span class="text-sm font-bold text-gray-900 dark:text-white statTotalPayment">0</span>
+                </div>
+            </div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Dashboard Summary -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <div class="bg-white dark:bg-[#1a1d24] rounded-2xl p-5 border border-gray-200 dark:border-white/5 flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center">
-                    <i class="ph ph-cards text-2xl"></i>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Total Cards</p>
-                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white" id="statTotalCards">0</h3>
-                </div>
-            </div>
-            <div class="bg-white dark:bg-[#1a1d24] rounded-2xl p-5 border border-gray-200 dark:border-white/5 flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center">
-                    <i class="ph ph-warning-circle text-2xl"></i>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Expired Numbers</p>
-                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white" id="statExpiredCount">0</h3>
-                </div>
-            </div>
-            <div class="bg-white dark:bg-[#1a1d24] rounded-2xl p-5 border border-gray-200 dark:border-white/5 flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-yellow-400/10 text-yellow-500 flex items-center justify-center">
-                    <i class="ph ph-currency-circle-dollar text-2xl"></i>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Total Due Payment</p>
-                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white" id="statTotalPayment">0</h3>
-                </div>
-            </div>
-        </div>
-
         <!-- Admin Actions Bar (Hidden by default) -->
         <div id="adminActions" class="hidden mb-6 flex justify-end">
             <button id="addSubscriptionBtn" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-full shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all flex items-center gap-2 transform active:scale-95">
@@ -255,6 +254,40 @@
                 <button class="close-modal flex-1 py-3 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-sm font-medium rounded-xl hover:bg-gray-200 dark:hover:bg-white/10 transition-colors">Cancel</button>
                 <button id="confirmDeleteBtn" class="flex-1 py-3 bg-red-500 text-white text-sm font-medium rounded-xl hover:bg-red-600 shadow-lg shadow-red-500/20 transition-all">Delete</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Payment Update Modal -->
+    <div id="paymentModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-gray-900/40 dark:bg-black/60 backdrop-blur-sm modal-backdrop transition-opacity"></div>
+        <div class="relative bg-white dark:bg-[#111111] border border-gray-100 dark:border-white/10 rounded-3xl shadow-2xl p-6 w-full max-w-sm transform scale-95 opacity-0 modal-content transition-all">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-bold">Update Payment</h3>
+                <button class="close-modal w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 transition-colors">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+            
+            <form id="paymentForm" class="space-y-4">
+                <input type="hidden" id="paymentSubId">
+                
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Bakaaya Payment (Remaining Due)</label>
+                    <input type="number" id="quickPaymentAmount" min="0" step="0.01" required placeholder="Enter remaining amount" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-black/30 border border-gray-200 dark:border-white/10 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm outline-none transition-all dark:text-white">
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Notes (Ye paise kis bare me the?)</label>
+                    <textarea id="quickPaymentNotes" rows="3" placeholder="Add payment notes here..." class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-black/30 border border-gray-200 dark:border-white/10 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm outline-none transition-all dark:text-white resize-none"></textarea>
+                </div>
+
+                <div class="pt-2 flex gap-3">
+                    <button type="button" class="close-modal flex-1 py-3 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-sm font-medium rounded-xl hover:bg-gray-200 dark:hover:bg-white/10 transition-colors">Cancel</button>
+                    <button type="submit" id="paymentSaveBtn" class="flex-1 py-3 bg-yellow-500 text-white text-sm font-medium rounded-xl hover:bg-yellow-600 shadow-lg shadow-yellow-500/20 transition-all flex items-center justify-center gap-2">
+                        Update
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 

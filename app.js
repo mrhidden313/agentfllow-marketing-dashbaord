@@ -66,11 +66,15 @@ const DOM = {
     deleteModal: document.getElementById('deleteModal'),
     confirmDeleteBtn: document.getElementById('confirmDeleteBtn'),
 
-    toastContainer: document.getElementById('toastContainer'),
+    // Payment Modal
+    paymentModal: document.getElementById('paymentModal'),
+    paymentForm: document.getElementById('paymentForm'),
+    paymentSubId: document.getElementById('paymentSubId'),
+    quickPaymentAmount: document.getElementById('quickPaymentAmount'),
+    quickPaymentNotes: document.getElementById('quickPaymentNotes'),
+    paymentSaveBtn: document.getElementById('paymentSaveBtn'),
 
-    statTotalCards: document.getElementById('statTotalCards'),
-    statExpiredCount: document.getElementById('statExpiredCount'),
-    statTotalPayment: document.getElementById('statTotalPayment')
+    toastContainer: document.getElementById('toastContainer')
 };
 
 // ==========================================
@@ -327,9 +331,9 @@ function renderDashboard(dataArray) {
         totalPayment += Number(sub.payment) || 0;
     });
 
-    DOM.statTotalCards.textContent = dataArray.length;
-    DOM.statExpiredCount.textContent = expiredCount;
-    DOM.statTotalPayment.textContent = totalPayment.toLocaleString();
+    document.querySelectorAll('.statTotalCards').forEach(el => el.textContent = dataArray.length);
+    document.querySelectorAll('.statExpiredCount').forEach(el => el.textContent = expiredCount);
+    document.querySelectorAll('.statTotalPayment').forEach(el => el.textContent = totalPayment.toLocaleString());
 }
 
 function renderCards(dataArray) {
@@ -376,16 +380,15 @@ function renderCards(dataArray) {
                         <i class="ph ph-calendar-blank text-gray-400"></i>
                         ${sub.startDate || '-'} to ${sub.endDate || '-'}
                     </div>
-                    ${sub.notes ? `
-                    <div class="flex items-start gap-3 text-sm text-gray-600 dark:text-gray-300">
-                        <i class="ph ph-note text-gray-400 mt-0.5"></i>
-                        <span class="text-xs italic">${sub.notes}</span>
-                    </div>` : ''}
                 </div>
 
-                <button type="button" class="w-full mb-5 py-2 bg-yellow-100 dark:bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 text-sm font-medium rounded-lg flex items-center justify-center gap-2 cursor-default">
-                    <i class="ph ph-currency-circle-dollar"></i> Due Payment: ${Number(sub.payment) || 0}
-                </button>
+                <div class="w-full mb-5 p-3 bg-yellow-50 dark:bg-yellow-500/5 border border-yellow-200 dark:border-yellow-500/20 rounded-xl">
+                    <div class="flex items-center gap-2 text-yellow-700 dark:text-yellow-400 font-bold mb-1">
+                        <i class="ph ph-currency-circle-dollar text-lg"></i>
+                        <span>Remaining Due: ${Number(sub.payment) || 0}</span>
+                    </div>
+                    ${sub.notes ? `<p class="text-xs text-yellow-600 dark:text-yellow-500 italic ml-6 border-l-2 border-yellow-300 dark:border-yellow-500/30 pl-2 py-0.5">${sub.notes}</p>` : `<p class="text-xs text-yellow-600/50 dark:text-yellow-500/50 italic ml-6">No payment notes added.</p>`}
+                </div>
 
                 <div class="mt-2 mb-5">
                     <div class="flex justify-between items-center mb-1.5">
@@ -397,7 +400,10 @@ function renderCards(dataArray) {
                     </div>
                 </div>
 
-                <div class="admin-actions flex gap-2 pt-4 border-t border-gray-100 dark:border-white/5">
+                <div class="admin-actions flex flex-wrap gap-2 pt-4 border-t border-gray-100 dark:border-white/5">
+                    <button onclick="openPaymentModal('${sub.id}')" class="w-full py-2 bg-emerald-50 dark:bg-emerald-500/5 hover:bg-emerald-100 dark:hover:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1 border border-emerald-200 dark:border-emerald-500/20">
+                        <i class="ph ph-currency-circle-dollar"></i> Update Payment & Notes
+                    </button>
                     <button onclick="editSub('${sub.id}')" class="flex-1 py-2 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300 text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1">
                         <i class="ph ph-pencil-simple"></i> Edit
                     </button>
@@ -454,6 +460,48 @@ window.deleteSub = (id) => {
     openModal(DOM.deleteModal);
 };
 
+window.openPaymentModal = (id) => {
+    if (!isAdmin) return;
+    const sub = allSubscriptions.find(s => s.id === id);
+    if (!sub) return;
+    
+    DOM.paymentSubId.value = id;
+    DOM.quickPaymentAmount.value = sub.payment || '';
+    DOM.quickPaymentNotes.value = sub.notes || '';
+    
+    openModal(DOM.paymentModal);
+};
+
+async function handlePaymentSubmit(e) {
+    e.preventDefault();
+    if (!isAdmin) return;
+    
+    const id = DOM.paymentSubId.value;
+    if (!id) return;
+
+    const data = {
+        payment: parseFloat(DOM.quickPaymentAmount.value) || 0,
+        notes: DOM.quickPaymentNotes.value,
+        updatedAt: serverTimestamp()
+    };
+
+    try {
+        const originalText = DOM.paymentSaveBtn.innerHTML;
+        DOM.paymentSaveBtn.innerHTML = '<i class="ph ph-spinner animate-spin"></i> Updating...';
+        DOM.paymentSaveBtn.disabled = true;
+
+        await updateDoc(doc(db, "subscriptions", id), data);
+        showToast("Payment details updated", "success");
+        closeModal(DOM.paymentModal);
+    } catch (error) {
+        console.error("Error updating payment: ", error);
+        showToast("Error updating payment", "error");
+    } finally {
+        DOM.paymentSaveBtn.innerHTML = 'Update';
+        DOM.paymentSaveBtn.disabled = false;
+    }
+}
+
 // ==========================================
 // Search & Filter
 // ==========================================
@@ -496,6 +544,7 @@ function setupEventListeners() {
 
     DOM.subForm.addEventListener('submit', handleSubFormSubmit);
     DOM.confirmDeleteBtn.addEventListener('click', handleDelete);
+    DOM.paymentForm.addEventListener('submit', handlePaymentSubmit);
     
     DOM.searchInput.addEventListener('input', handleSearch);
     DOM.searchInputMobile.addEventListener('input', handleSearch);
