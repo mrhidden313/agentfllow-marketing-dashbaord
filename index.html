@@ -53,18 +53,27 @@
             </div>
             
             <!-- Desktop Stats -->
-            <div class="hidden md:flex items-center gap-6 px-4 border-x border-gray-200 dark:border-white/10 mx-2">
-                <div class="flex items-center gap-1.5" title="Total Cards">
-                    <i class="ph ph-cards text-brand-500 text-lg"></i>
-                    <span class="text-sm font-bold text-gray-900 dark:text-white statTotalCards">0</span>
+            <div class="hidden lg:flex items-center gap-3 px-4 mx-2">
+                <div class="flex items-center gap-2 bg-brand-50 dark:bg-brand-500/10 px-3 py-1.5 rounded-xl border border-brand-100 dark:border-brand-500/20">
+                    <div class="w-8 h-8 rounded-lg bg-brand-100 dark:bg-brand-500/20 text-brand-500 flex items-center justify-center"><i class="ph ph-cards text-lg"></i></div>
+                    <div class="flex flex-col">
+                        <span class="text-[10px] leading-none text-brand-600 dark:text-brand-400 font-medium">Total Cards</span>
+                        <span class="text-sm font-bold text-brand-700 dark:text-brand-300 leading-tight statTotalCards">0</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-1.5" title="Expired">
-                    <i class="ph ph-warning-circle text-red-500 text-lg"></i>
-                    <span class="text-sm font-bold text-gray-900 dark:text-white statExpiredCount">0</span>
+                <div class="flex items-center gap-2 bg-red-50 dark:bg-red-500/10 px-3 py-1.5 rounded-xl border border-red-100 dark:border-red-500/20">
+                    <div class="w-8 h-8 rounded-lg bg-red-100 dark:bg-red-500/20 text-red-500 flex items-center justify-center"><i class="ph ph-warning-circle text-lg"></i></div>
+                    <div class="flex flex-col">
+                        <span class="text-[10px] leading-none text-red-600 dark:text-red-400 font-medium">Expired</span>
+                        <span class="text-sm font-bold text-red-700 dark:text-red-300 leading-tight statExpiredCount">0</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-1.5" title="Total Due">
-                    <i class="ph ph-currency-circle-dollar text-yellow-500 text-lg"></i>
-                    <span class="text-sm font-bold text-gray-900 dark:text-white statTotalPayment">0</span>
+                <div class="flex items-center gap-2 bg-yellow-50 dark:bg-yellow-500/10 px-3 py-1.5 rounded-xl border border-yellow-200 dark:border-yellow-500/20">
+                    <div class="w-8 h-8 rounded-lg bg-yellow-100 dark:bg-yellow-500/20 text-yellow-600 dark:text-yellow-500 flex items-center justify-center"><i class="ph ph-currency-circle-dollar text-lg"></i></div>
+                    <div class="flex flex-col">
+                        <span class="text-[10px] leading-none text-yellow-700 dark:text-yellow-400 font-medium">Total Due</span>
+                        <span class="text-sm font-bold text-yellow-800 dark:text-yellow-300 leading-tight statTotalPayment">0</span>
+                    </div>
                 </div>
             </div>
 
@@ -90,25 +99,28 @@
             </div>
         </div>
         <!-- Mobile Search & Stats (visible only on small screens) -->
-        <div class="md:hidden px-4 pb-3 space-y-3">
+        <div class="lg:hidden px-4 pb-3 space-y-3">
             <div class="relative group">
                 <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                 <input type="text" id="searchInputMobile" placeholder="Search phone or email..." 
                     class="pl-9 pr-4 py-2 w-full rounded-xl bg-gray-100/50 dark:bg-black/30 border border-transparent focus:border-emerald-500/50 focus:bg-white dark:focus:bg-[#15181e] focus:ring-2 focus:ring-emerald-500/20 text-sm outline-none transition-all dark:text-white"
                 >
             </div>
-            <div class="flex justify-between items-center bg-gray-100/50 dark:bg-black/30 rounded-xl p-2 px-4 border border-transparent">
-                <div class="flex items-center gap-1.5" title="Total Cards">
-                    <i class="ph ph-cards text-brand-500 text-lg"></i>
-                    <span class="text-sm font-bold text-gray-900 dark:text-white statTotalCards">0</span>
+            <div class="grid grid-cols-3 gap-2">
+                <div class="flex flex-col items-center justify-center bg-brand-50 dark:bg-brand-500/10 p-2.5 rounded-xl border border-brand-100 dark:border-brand-500/20 text-center">
+                    <i class="ph ph-cards text-brand-500 text-xl mb-1"></i>
+                    <span class="text-[10px] text-brand-600 dark:text-brand-400 font-medium">Total Cards</span>
+                    <span class="text-sm font-bold text-brand-700 dark:text-brand-300 statTotalCards">0</span>
                 </div>
-                <div class="flex items-center gap-1.5" title="Expired">
-                    <i class="ph ph-warning-circle text-red-500 text-lg"></i>
-                    <span class="text-sm font-bold text-gray-900 dark:text-white statExpiredCount">0</span>
+                <div class="flex flex-col items-center justify-center bg-red-50 dark:bg-red-500/10 p-2.5 rounded-xl border border-red-100 dark:border-red-500/20 text-center">
+                    <i class="ph ph-warning-circle text-red-500 text-xl mb-1"></i>
+                    <span class="text-[10px] text-red-600 dark:text-red-400 font-medium">Expired</span>
+                    <span class="text-sm font-bold text-red-700 dark:text-red-300 statExpiredCount">0</span>
                 </div>
-                <div class="flex items-center gap-1.5" title="Total Due">
-                    <i class="ph ph-currency-circle-dollar text-yellow-500 text-lg"></i>
-                    <span class="text-sm font-bold text-gray-900 dark:text-white statTotalPayment">0</span>
+                <div class="flex flex-col items-center justify-center bg-yellow-50 dark:bg-yellow-500/10 p-2.5 rounded-xl border border-yellow-200 dark:border-yellow-500/20 text-center">
+                    <i class="ph ph-currency-circle-dollar text-yellow-600 dark:text-yellow-500 text-xl mb-1"></i>
+                    <span class="text-[10px] text-yellow-700 dark:text-yellow-400 font-medium">Total Due</span>
+                    <span class="text-sm font-bold text-yellow-800 dark:text-yellow-300 statTotalPayment">0</span>
                 </div>
             </div>
         </div>
