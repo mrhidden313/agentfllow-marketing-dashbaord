@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read access to anyone (since the frontend displays the list by default)
+    // Allow write access to anyone (the frontend gates admin actions via the 'agentflow' password)
+    
+    // WARNING: This is INSECURE for a real production app without Firebase Authentication.
+    // Anyone who inspects the web traffic or JS code can bypass the frontend password 
+    // and write to this database. 
+    // If you add Firebase Auth later, change `allow write: if true;` to `allow write: if request.auth != null;`
+    
+    match /subscriptions/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}

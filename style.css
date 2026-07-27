@@ -1,0 +1,182 @@
+/* Base & Scrollbar */
+html {
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.3);
+    border-radius: 10px;
+}
+.dark ::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Animations & "Oily" Fluidity */
+.sub-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sub-card.show-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sub-card.show-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+}
+
+.dark .sub-card.show-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.4), 0 0 15px rgba(16, 185, 129, 0.1);
+}
+
+/* Expired State Highlight */
+.sub-card.expired {
+    position: relative;
+    overflow: hidden;
+}
+
+.sub-card.expired::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: #ef4444; /* Tailwind red-500 */
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
+.expired-bg {
+    background: linear-gradient(145deg, rgba(239, 68, 68, 0.05) 0%, transparent 100%);
+}
+
+.dark .expired-bg {
+    background: linear-gradient(145deg, rgba(239, 68, 68, 0.1) 0%, transparent 100%);
+}
+
+/* Modal Animations */
+#adminModal, #subModal, #deleteModal {
+    transition: visibility 0.3s, z-index 0.3s;
+}
+
+#adminModal.show, #subModal.show, #deleteModal.show {
+    display: flex !important;
+}
+
+.modal-backdrop {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.show .modal-backdrop {
+    opacity: 1;
+}
+
+.modal-content {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.show .modal-content {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* Toast Animations */
+.toast-enter {
+    animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.toast-leave {
+    animation: slideOutRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+/* Action Buttons (Admin Mode) Fade */
+.admin-actions {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.admin-mode-active .admin-actions {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Neon Glow Effects for Emerald */
+.shadow-emerald-500\/20 {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4), 0 0 5px rgba(16, 185, 129, 0.2);
+}
+.hover\:shadow-emerald-500\/40:hover {
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.6), 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* High-end Ambient Oily Background */
+body {
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: 
+        radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.04), transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.04), transparent 50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.dark body::before {
+    background: 
+        radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.15), transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.1), transparent 50%);
+    filter: blur(60px);
+}
